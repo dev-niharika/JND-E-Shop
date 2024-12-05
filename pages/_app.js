@@ -1,5 +1,18 @@
+import Footer from "@/components/Footer";
+import Navbar from "@/components/Navbar";
 import "@/styles/globals.css";
 
-export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+import { CartProvider } from '../context/cartContext';
+
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <CartProvider>
+      <Navbar />
+      <Component {...pageProps} />
+      <Footer />
+    </CartProvider>
+  );
 }
+
+export default MyApp;
