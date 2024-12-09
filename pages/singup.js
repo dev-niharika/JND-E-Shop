@@ -101,7 +101,7 @@ function singup() {
             Register
           </button>
           <p className="text-xs text-gray-800 mt-3">
-            If you Already registered then Login here -&gt; <Link className=" font-bold" href={"/login"}>Login</Link>
+            If you Already registered then Login here -&gt; <Link className=" font-bold" href="/login">Login</Link>
           </p>
         </div>
       </div>

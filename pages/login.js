@@ -76,13 +76,13 @@ function login() {
             />
           </div>
           <p className="text-right mb-1">
-          <Link className=" text-sm text-red-500" href={"/forgotpass"}>Forgot Your Password</Link>
+          <Link className=" text-sm text-red-500" href="/forgotpass">Forgot Your Password</Link>
           </p>
           <button className="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
             Login
           </button>
           <p className="text-xs text-gray-800 mt-3">
-            If Not logged in Register here -&gt; <Link className=" font-bold" href={"/singup"}>Register</Link>
+            If Not logged in Register here -&gt; <Link className=" font-bold" href="/singup">Register</Link>
           </p>
         </div>
       </div>
