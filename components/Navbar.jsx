@@ -48,10 +48,10 @@ const Navbar = () => {
               About
             </Link>
             <Link
-              href="/contact"
+              href="/singup"
               className="mr-5 p-2 hover:text-gray-100  hover:bg-gray-700 rounded-xl"
             >
-              Contact
+              Register
             </Link>
             <Link
               href="/login"
@@ -66,7 +66,7 @@ const Navbar = () => {
                 onClick={toggleDropdown}
                 className="mr-5 p-2 hover:text-gray-100 hover:bg-gray-700 rounded-xl"
               >
-                More
+                Products
               </button>
 
               {/* Dropdown Menu */}
@@ -123,7 +123,7 @@ const Navbar = () => {
           showConfirm ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="bg-white w-auto ml-auto p-4 rounded-md shadow-lg">
+        <div className="bg-white  w-auto ml-auto p-4 rounded-md ">
           <div className="text-right">
             <button
               onClick={toggleChange}
