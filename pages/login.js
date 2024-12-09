@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-function login() {
+function Login() {
   const styles = {
     filter: "grayscale(1) contrast(1.2) opacity(0.4)",
   };
@@ -90,4 +90,4 @@ function login() {
   );
 }
 
-export default login;
+export default Login;

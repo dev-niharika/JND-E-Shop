@@ -1,7 +1,7 @@
 import React from "react";
 import { useCart } from "../context/cartContext";
 import Link from "next/link";
-function checkout() {
+function Checkout() {
   const { cart, increaseQuantity, decreaseQuantity, removeProduct } = useCart();
   return (
     
@@ -154,4 +154,4 @@ function checkout() {
   );
 }
 
-export default checkout;
+export default Checkout;

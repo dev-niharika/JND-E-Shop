@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-function singup() {
+function Singup() {
   const styles = {
     filter: "grayscale(1) contrast(1.2) opacity(0.4)",
   };
@@ -109,4 +109,4 @@ function singup() {
   );
 }
 
-export default singup
+export default Singup
