@@ -37,8 +37,8 @@ function order() {
         </div>
         <div className="mt-6 md:mt-0 flex justify-start flex-col md:flex-row items-start md:items-center space-y-4 md:space-x-6 xl:space-x-8 w-full">
           <div className="w-full md:w-40">
-            <img className="w-full hidden md:block" width={100} height={40} src="/girlshodies.jpg" alt="dress" />
-            <img className="w-full md:hidden" width={100} height={40} src="/girlshodies.jpg" alt="dress" />
+            <Image className="w-full hidden md:block" width={100} height={40} src="/girlshodies.jpg" alt="dress" />
+            <Image className="w-full md:hidden" width={100} height={40} src="/girlshodies.jpg" alt="dress" />
           </div>
           <div className="flex justify-between items-start w-full flex-col md:flex-row space-y-4 md:space-y-0">
             <div className="w-full flex flex-col justify-start items-start space-y-8">
