@@ -31,7 +31,7 @@ function mug() {
                   <h2 className="text-gray-900 title-font text-lg font-medium">
                     {index % 2 === 0 ? 'Shay Large Ceramic Coffee Cup Set of 2, Teal Green, 320ml ': 'Noritake Japan - Porcelain Tea And Coffee Mug Set Of 6'}
                   </h2>
-                  <p className="mt-1">${(16 + index * 2).toFixed(2)}</p>
+                  <p className="mt-1">₹{(16 + index * 2).toFixed(2)}</p>
                 </div>
               </div>
             ))}

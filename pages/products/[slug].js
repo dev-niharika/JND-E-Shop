@@ -2,21 +2,15 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { useCart } from '../../context/cartContext';
+import Product from '@/models/products';
+import connectToDatabase from '@/middle/db'; 
 
-const Post = () => {
+const Post = ({product}) => {
   const router = useRouter();
-  const { slug } = router.query;
+
 
   // Example product data for the current product page
-  const product = {
-    id: 1,
-    name: 'The Catcher in the Rye',
-    price: 58.00,
-    image: '/tshirt.jpg',
-    description: 'Fam locavore kickstarter distillery. Mixtape chillwave tumeric sriracha taximy chia microdosing tilde DIY.',
-    brand: 'BRAND NAME',
-  };
-
+  
   const { addToCart } = useCart();
 
   // Handle adding the product to the cart
@@ -34,12 +28,12 @@ const Post = () => {
               className="object-cover object-top w-80 block h-full"
               width={300}
               height={50}
-              src={product.image}
+              src={product.img}
             />
             <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-              <h2 className="text-sm title-font text-gray-500 tracking-widest">{product.brand}</h2>
-              <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{product.name}</h1>
-              <p className="leading-relaxed">{product.description}</p>
+              <h2 className="text-sm title-font text-gray-500 tracking-widest">{product.title}</h2>
+              <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{product.title}</h1>
+              <p className="leading-relaxed">{product.des}</p>
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
                 <div className="flex">
                   <span className="mr-3">Color</span>
@@ -65,7 +59,7 @@ const Post = () => {
                 </div>
               </div>
               <div className="flex">
-                <span className="title-font font-medium text-2xl text-gray-900 mr-1">${product.price.toFixed(2)}</span>
+                <span className="title-font font-medium text-2xl text-gray-900 mr-1">${product.price}</span>
                 <button
                   onClick={handleAddToCart}
                   className="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
@@ -80,5 +74,34 @@ const Post = () => {
     </>
   );
 };
+
+export async function getServerSideProps(context) {
+  const { slug } = context.params;
+
+  try {
+    await connectToDatabase();
+    const product = await Product.findOne({ slug });
+
+    if (!product) {
+      return {
+        notFound: true,
+      };
+    }
+
+    return {
+      props: {
+        product: JSON.parse(JSON.stringify(product)), // Serialize MongoDB data
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return {
+      props: {
+        product: null,
+      },
+    };
+  }
+}
+
 
 export default Post;

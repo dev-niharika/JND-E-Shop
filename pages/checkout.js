@@ -110,7 +110,7 @@ function Checkout() {
                           <span className="font-semibold mr-4">{item.name}</span>
                         </div>
                       </td>
-                      <td className="py-4 ">{`$${item.price}`}</td>
+                      <td className="py-4 ">{`₹${item.price}`}</td>
                       <td className="py-2 ">
                         <div className="flex items-center">
                           <button
@@ -128,7 +128,7 @@ function Checkout() {
                           </button>
                         </div>
                       </td>
-                      <td className="py-4">{`$${(item.price * item.quantity).toFixed(2)}`}</td>
+                      <td className="py-4">{`₹${(item.price * item.quantity).toFixed(2)}`}</td>
                       <td className="py-4">
                         <button
                           onClick={() => removeProduct(item.id)}

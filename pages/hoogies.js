@@ -31,7 +31,7 @@ function hoogies() {
                   <h2 className="text-gray-900 title-font text-lg font-medium">
                     {index % 2 === 0 ? 'NOBERO Men Hooded Sweatshirt' : 'SXV STYLE Basic Solid Cropped Zipper Hoodie for Women'}
                   </h2>
-                  <p className="mt-1">${(16 + index * 2).toFixed(2)}</p>
+                  <p className="mt-1">₹{(16 + index * 2).toFixed(2)}</p>
                 </div>
               </div>
             ))}
