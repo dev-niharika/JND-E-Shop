@@ -59,29 +59,27 @@ function Tshirt({ products }) {
 export async function getServerSideProps(context) {
   try {
     await connectToDatabase();
-    const products = await Product.find({category:"Tshirt"});
-    const tshirt = {};
+    
+    // Limiting fields fetched and adding pagination if necessary
+    const products = await Product.find({ category: "Tshirt" })
+      .select('title color size price img slug availableQty')  // Select only needed fields
+      .limit(100);  // Consider pagination or limiting the number of results
 
-    for (let item of products) {
-      if (tshirt[item.title]) {
-        if (!tshirt[item.title].color.includes(item.color) && item.availableQty > 0) {
-          tshirt[item.title].color.push(item.color);
-        }
-        if (!tshirt[item.title].size.includes(item.size) && item.availableQty > 0) {
-          tshirt[item.title].size.push(item.size);
-        }
-      } else {
-        tshirt[item.title] = { ...item.toObject() };  // Correctly format the item
-        if (item.availableQty > 0) {
-          tshirt[item.title].color = [item.color];
-          tshirt[item.title].size = [item.size];
+    const tshirt = {};
+    products.forEach(item => {
+      if (item.availableQty > 0) {
+        if (!tshirt[item.title]) {
+          tshirt[item.title] = { ...item.toObject(), color: [item.color], size: [item.size] };
+        } else {
+          if (!tshirt[item.title].color.includes(item.color)) tshirt[item.title].color.push(item.color);
+          if (!tshirt[item.title].size.includes(item.size)) tshirt[item.title].size.push(item.size);
         }
       }
-    }
-console.log(tshirt)
+    });
+
     return {
       props: {
-        products: JSON.parse(JSON.stringify(tshirt)), // Serialize MongoDB data
+        products: JSON.parse(JSON.stringify(tshirt)),
       },
     };
   } catch (error) {
@@ -93,5 +91,6 @@ console.log(tshirt)
     };
   }
 }
+
 
 export default Tshirt;
