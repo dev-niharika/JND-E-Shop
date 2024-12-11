@@ -11,7 +11,26 @@ export default async function handler(req, res) {
     case "GET":
       try {
         const products = await Product.find({});
-        res.status(200).json({ success: true, data: products });
+        const tshirt = {};
+
+        for (let item of products) {
+          if (tshirt[item.title]) {
+            if (!tshirt[item.title].color.includes(item.color) && item.availableQty > 0) {
+              tshirt[item.title].color.push(item.color);
+            }
+            if (!tshirt[item.title].size.includes(item.size) && item.availableQty > 0) {
+              tshirt[item.title].size.push(item.size);
+            }
+          } else {
+            tshirt[item.title] = { ...item.toObject() };  // Correctly format the item
+            if (item.availableQty > 0) {
+              tshirt[item.title].color = [item.color];
+              tshirt[item.title].size = [item.size];
+            }
+          }
+        }
+
+        res.status(200).json({ success: true, data: tshirt });
       } catch (error) {
         res.status(500).json({ success: false, error: error.message });
       }
@@ -20,13 +39,13 @@ export default async function handler(req, res) {
     // Add a new product
     case "POST":
       try {
-        const { title,slug,des,img,category,size,color,availableQty, price} = req.body;
+        const { title, slug, des, img, category, size, color, availableQty, price } = req.body;
 
         if (!title || !price || !des) {
           return res.status(400).json({ success: false, message: "All fields are required." });
         }
 
-        const newProduct = new Product({title,slug,des,img,category,size,color,availableQty, price });
+        const newProduct = new Product({ title, slug, des, img, category, size, color, availableQty, price });
         await newProduct.save();
         res.status(201).json({ success: true, data: newProduct });
       } catch (error) {

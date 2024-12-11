@@ -10,28 +10,42 @@ function Tshirt({ products }) {
       <section className="text-gray-600 body-font">
         <div className="container px-5 py-24 mx-auto">
           <div className="flex flex-wrap -m-4">
-            {products.map((product) => (
-              <div key={product._id} className="lg:w-1/4 md:w-1/2 xl:p-4 sm:p-20 mb-2  w-full">
-                <Link href={`/products/${product.slug}`} className="block relative h-80 rounded overflow-hidden">
+            {Object.keys(products).map((product) => (
+              <div key={products[product]._id} className="lg:w-1/4 md:w-1/2 xl:p-4 sm:p-20 mb-2  w-full">
+                <Link href={`/products/${products[product].slug}`} className="block relative h-80 rounded overflow-hidden">
                  
                     <Image
                       alt="ecommerce"
                       className="object-cover object-top w-80 block h-full"
                       width={300}
                       height={300}
-                      src={product.img}
+                      src={products[product].img}
                     />
                
                 </Link>
                 <div className="mt-4">
                   <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">
-                    {product.category}
+                    {products[product].category}
                   </h3>
                   <h2 className="text-gray-900 title-font text-lg font-medium">
-                    {product.title}
+                    {products[product].title}
                   </h2>
-                  <p className="mt-1">₹{product.price}</p>
-                  <p className="mt-1">{product.size}</p>
+                  <p className="mt-1">₹{products[product].price}</p>
+                  <p className="mt-1">
+                    {products[product].size.includes('S') && <span className='px-1 mr-1 border rounded-sm border-black'>S</span>}
+                    {products[product].size.includes('M') && <span className='px-1 border mr-1 rounded-sm border-black'>M</span>}
+                    {products[product].size.includes('L') && <span className='px-1 border mr-1 rounded-sm border-black'>L</span>}
+                    {products[product].size.includes('X') && <span className='px-1 border mr-1 rounded-sm border-black'>X</span>}
+                    {products[product].size.includes('XL') && <span className='px-1 border mr-1 rounded-sm border-black'>XL</span>}
+                    </p>
+                    <p className="mt-1">
+                    {products[product].color.includes('black') && <button class="border-2 border-black ml-1 bg-black rounded-full w-6 h-6 focus:outline-none"></button>}                   
+                    {products[product].color.includes('blue') && <button class="border-2 border-blue-950 ml-1 bg-blue-950 rounded-full w-6 h-6 focus:outline-none"></button>}
+                    {products[product].color.includes('brown') && <button class="border-2 border-red-950 ml-1 bg-red-950 rounded-full w-6 h-6 focus:outline-none"></button>}
+                    {products[product].color.includes('yellow') &&  <button class="border-2 border-yellow-300 ml-1 bg-yellow-300 rounded-full w-6 h-6 focus:outline-none"></button>}
+                    {products[product].color.includes('green') &&  <button class="border-2 border-green-800 ml-1 bg-green-800 rounded-full w-6 h-6 focus:outline-none"></button>}
+                    </p>
+
                 </div>
               </div>
             ))}
@@ -45,11 +59,29 @@ function Tshirt({ products }) {
 export async function getServerSideProps(context) {
   try {
     await connectToDatabase();
-    const products = await Product.find({});
-console.log(products)
+    const products = await Product.find({category:"Tshirt"});
+    const tshirt = {};
+
+    for (let item of products) {
+      if (tshirt[item.title]) {
+        if (!tshirt[item.title].color.includes(item.color) && item.availableQty > 0) {
+          tshirt[item.title].color.push(item.color);
+        }
+        if (!tshirt[item.title].size.includes(item.size) && item.availableQty > 0) {
+          tshirt[item.title].size.push(item.size);
+        }
+      } else {
+        tshirt[item.title] = { ...item.toObject() };  // Correctly format the item
+        if (item.availableQty > 0) {
+          tshirt[item.title].color = [item.color];
+          tshirt[item.title].size = [item.size];
+        }
+      }
+    }
+console.log(tshirt)
     return {
       props: {
-        products: JSON.parse(JSON.stringify(products)), // Serialize MongoDB data
+        products: JSON.parse(JSON.stringify(tshirt)), // Serialize MongoDB data
       },
     };
   } catch (error) {
