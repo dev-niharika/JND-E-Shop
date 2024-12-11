@@ -19,7 +19,8 @@ async function connectToDatabase() {
 
   if (!cached.promise) {
     cached.promise = mongoose.connect(MONGO_URI, {
-      useNewUrlParser: true,  // no need for useUnifiedTopology anymore
+      useNewUrlParser: true,
+  connectTimeoutMS: 10000,  // no need for useUnifiedTopology anymore
     });
   }
 
